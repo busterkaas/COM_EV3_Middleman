@@ -1,30 +1,30 @@
 package Logic;
+
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.Socket;
-import java.util.Scanner;
 
 public class EV3Client {
 
 	DataInputStream dis;
 	DataOutputStream dos;
 	boolean done;
+	int socketPort = 5000;
 
 	public EV3Client(String serverIpAddress) {
 		try {
 			System.out.println("Connecting to EV3...");
-			Socket s = new Socket(serverIpAddress, 5000);
+			Socket socket = new Socket(serverIpAddress, socketPort);
 
-			dis = new DataInputStream(s.getInputStream());
-			dos = new DataOutputStream(s.getOutputStream());
+			dis = new DataInputStream(socket.getInputStream());
+			dos = new DataOutputStream(socket.getOutputStream());
 
 			done = false;
-			
-		} catch (Exception e) {
-			System.out.println(e.getMessage());
-		}
 
+		} catch (Exception e) {
+			System.out.println("Error: " + e.getMessage());
+		}
 	}
 
 	public void sendMessage(String message) {
@@ -38,7 +38,7 @@ public class EV3Client {
 					System.out.println("ev3 response: " + ev3Message);
 				}
 			} catch (Exception e) {
-				System.out.println(e.getMessage());
+				System.out.println("Error: " + e.getMessage());
 			}
 
 			String ev3Message = dis.readUTF();
@@ -48,8 +48,7 @@ public class EV3Client {
 				done = true;
 			}
 		} catch (IOException e) {
-			e.printStackTrace();
+			System.out.println("Error: " + e.getMessage());
 		}
 	}
-
 }

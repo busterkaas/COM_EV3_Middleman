@@ -64,14 +64,6 @@ public class MyRobot {
 		}
 	}
 
-	
-
-	
-
-	
-
-	
-
 	public void close() {
 		motorLeft.stop();
 		motorRight.stop();
